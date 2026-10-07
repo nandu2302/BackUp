@@ -1,5 +1,27 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from routers.projects import router as projects_router
+from routers.users import router as users_router
+from routers.project_members import router as project_members_router
+from models.stage import ProjectStage
+from routers.requirements import router as requirements_router
+from routers.architecture import router as architecture_router
+from routers.development import router as development_router
+from routers.decisions import router as decisions_router
+from routers.experiences import router as experiences_router
+from routers.testing import router as testing_router
+from routers.test_records import router as test_records_router
+from routers.solutions import router as solutions_router
+from routers.lessons import router as lessons_router
+from routers.deployment import router as deployment_router
+from routers.milestones import router as milestones_router
+from routers.ideas import router as ideas_router
+from routers.project_history import router as project_history_router
+
+
+
+
+
 
 from hindsight_service import (
     get_experience_count,
@@ -12,6 +34,7 @@ app = FastAPI(
     title="ProjectHindsight API"
 )
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,6 +42,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+app.include_router(projects_router)
+app.include_router(users_router)
+app.include_router(project_members_router)
+app.include_router(requirements_router)
+app.include_router(architecture_router)
+app.include_router(development_router)
+app.include_router(decisions_router)
+app.include_router(experiences_router)
+app.include_router(testing_router)
+app.include_router(test_records_router)
+app.include_router(solutions_router)
+app.include_router(lessons_router)
+app.include_router(deployment_router)
+app.include_router(milestones_router)
+app.include_router(ideas_router)
+app.include_router(project_history_router)
+
+
+
+
 
 
 @app.get("/")
@@ -43,18 +88,14 @@ def add_experience(data: dict):
 
 
 @app.get("/memory")
-def get_memory(query: str):
-
-    memories = search_memory(query)
-
-    return {
-        "memories": memories
-    }
+async def get_memory(query: str):
+    memories = await search_memory(query)
+    return memories
 
 @app.post("/historical-lesson")
-def get_historical_lesson(data: dict):
+async def get_historical_lesson(data: dict):
 
-    result = generate_hindsight(
+    result = await generate_hindsight(
         f"""
         A new project is facing this problem:
 
@@ -71,15 +112,13 @@ def get_historical_lesson(data: dict):
         """
     )
 
-    return {
-        "lesson": result
-    }
+    return {"lesson": result}
 
 
 @app.post("/revive-idea")
-def revive_idea(data: dict):
+async def revive_idea(data: dict):
 
-    result = generate_hindsight(
+    result = await generate_hindsight(
         f"""
         A new project is considering this idea:
 
@@ -119,9 +158,9 @@ def experience_count():
     }
 
 @app.post("/hindsight")
-def get_hindsight(data: dict):
+async def get_hindsight(data: dict):
 
-    result = generate_hindsight(
+    result = await generate_hindsight(
         data["query"]
     )
 

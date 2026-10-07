@@ -23,27 +23,25 @@
 
         <nav>
 
-            <button onclick="showSection('dashboard')" class="nav-btn active">
-                Dashboard
-            </button>
-
-            <button onclick="showSection('experience')" class="nav-btn">
-                + Add Experience
-            </button>
-
-            <button onclick="showSection('hindsight')" class="nav-btn">
-                Hindsight
-            </button>
-
-            <button onclick="showSection('memory')" class="nav-btn">
-                Ask Project Memory
-            </button>
-
-            <button onclick="showSection('createProject')" class="nav-btn">
-        + Create Project
+    <button onclick="showSection('dashboard')" class="nav-btn active">
+        Dashboard
     </button>
 
-        </nav>
+    <button onclick="showSection('projects')" class="nav-btn">
+        Projects
+    </button>
+
+    <button onclick="showSection('hindsight')" class="nav-btn">
+        Hindsight
+    </button>
+
+    <button onclick="showSection('settings')" class="nav-btn">
+        Settings
+    </button>
+
+</nav>
+
+            
 
         <div class="sidebar-bottom">
             <p>AI that remembers</p>
@@ -59,118 +57,118 @@
 
         <!-- DASHBOARD -->
 
-        <section id="dashboard" class="section active">
+        <!-- DASHBOARD -->
 
-            <div class="topbar">
-                <div>
-                    <h1>Project Dashboard</h1>
+<section id="dashboard" class="section active">
 
-                    <p>
-                        Turn project experiences into organizational memory.
-                    </p>
-                </div>
+    <div class="topbar">
 
-                <button
-                    class="primary-btn"
-                    onclick="showSection('experience')">
+        <div>
+            <h1>Project Dashboard</h1>
 
-                    + Add Experience
+            <p>
+                Turn project experiences into organizational memory.
+            </p>
+        </div>
 
-                </button>
-            </div>
+        <button
+            class="primary-btn"
+            onclick="showSection('experience')">
 
+            + Add Experience
 
-            <div class="stats">
+        </button>
 
-                <div class="stat-card">
-                    <h3>2</h3>
-                    <p>Projects</p>
-                </div>
-
-                <div class="stat-card">
-                    <h3 id="experienceCount">0</h3>
-                    <p>Experiences</p>
-                </div>
-
-                <div class="stat-card">
-                    <h3>AI</h3>
-                    <p>Memory Enabled</p>
-                </div>
-
-            </div>
+    </div>
 
 
-            <div class="project-card">
+    <!-- DASHBOARD STATS -->
 
-                <div class="project-header">
+    <div class="stats">
 
-                    <div>
-                        <span class="badge">Completed</span>
+        <div class="stat-card">
 
-                        <h2>
-                            Emergency Response System
-                        </h2>
+            <h3 id="projectCount">0</h3>
 
-                        <p>
-                            Smart emergency response platform for
-                            ambulance routing and hospital coordination.
-                        </p>
-                    </div>
+            <p>Projects</p>
 
-                    <button
-                        class="secondary-btn"
-                        onclick="showSection('hindsight')">
-
-                        View Hindsight
-
-                    </button>
-
-                </div>
+        </div>
 
 
-                <div class="project-metrics">
+        <div class="stat-card">
 
-                    <div>
-                        <strong id="dashboardExperienceCount">0</strong>
-                        <span>Experiences</span>
-                    </div>
+            <h3 id="experienceCount">0</h3>
 
-                    <div>
-                        <strong>3</strong>
-                        <span>Decisions</span>
-                    </div>
+            <p>Experiences</p>
 
-                    <div>
-                        <strong>2</strong>
-                        <span>Lessons</span>
-                    </div>
+        </div>
 
-                </div>
+
+        <div class="stat-card">
+
+            <h3>AI</h3>
+
+            <p>Memory Enabled</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- CURRENT PROJECT -->
+
+    <div id="dashboardCurrentProject">
+
+        <div class="idea-card">
+
+            <div>
+
+                <span class="small-label">
+                    CURRENT PROJECT
+                </span>
+
+                <h2>
+                    No current project selected
+                </h2>
+
+                <p>
+                    Create or select a project to see
+                    its current status and project memory.
+                </p>
 
             </div>
 
+        </div>
 
-            <div class="idea-card">
+    </div>
 
-                <div>
-                    <span class="small-label">
-                        PROJECT MEMORY
-                    </span>
 
-                    <h2>
-                        Your projects should not repeat the same mistakes.
-                    </h2>
+    <!-- PROJECT MEMORY -->
 
-                    <p>
-                        ProjectHindsight stores failures, decisions,
-                        rejected ideas and lessons so future projects
-                        can learn from previous experience.
-                    </p>
-                </div>
+    <div class="idea-card">
 
-            </div>
+        <div>
 
-        </section>
+            <span class="small-label">
+                PROJECT MEMORY
+            </span>
+
+            <h2>
+                Your projects should not repeat the same mistakes.
+            </h2>
+
+            <p>
+                ProjectHindsight stores failures, decisions,
+                rejected ideas and lessons so future projects
+                can learn from previous experience.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</section>
 
 
         <div class="project-card">
@@ -192,6 +190,83 @@
         Open Project
     </button>
 </div>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="section">
+
+    <div class="topbar">
+
+        <div>
+            <h1>Settings</h1>
+
+            <p>
+                ProjectHindsight application settings.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="idea-card">
+
+        <div>
+
+            <span class="small-label">
+                SETTINGS
+            </span>
+
+            <h2>
+                Settings will be available here.
+            </h2>
+
+            <p>
+                Authentication, profile, GitHub integration,
+                and application preferences will be configured here.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- PROJECTS -->
+
+<section id="projects" class="section">
+
+    <div class="topbar">
+
+        <div>
+            <h1>Projects</h1>
+
+            <p>
+                View and manage all your projects.
+            </p>
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="showSection('createProject')">
+
+            + Create Project
+
+        </button>
+
+    </div>
+
+
+    <div id="projectsContainer">
+
+        <p class="empty-message">
+            Loading projects...
+        </p>
+
+    </div>
+
+</section>
 
 
 
@@ -336,60 +411,58 @@
 
             <div class="hindsight-grid">
 
-                <div class="insight-card">
+    <div class="insight-card">
 
-                    <span class="insight-label">
-                        WHAT WORKED
-                    </span>
+        <span class="insight-label">
+            WHAT WORKED
+        </span>
 
-                    <p>
-                        Solutions that successfully resolved
-                        project problems.
-                    </p>
+        <p id="hindsightWorked">
+            Generate Hindsight to see what worked.
+        </p>
 
-                </div>
-
-
-                <div class="insight-card">
-
-                    <span class="insight-label">
-                        WHAT FAILED
-                    </span>
-
-                    <p>
-                        Failures and problems experienced
-                        during development.
-                    </p>
-
-                </div>
+    </div>
 
 
-                <div class="insight-card">
+    <div class="insight-card">
 
-                    <span class="insight-label">
-                        IMPORTANT DECISIONS
-                    </span>
+        <span class="insight-label">
+            WHAT FAILED
+        </span>
 
-                    <p>
-                        Decisions made and the reasoning behind them.
-                    </p>
+        <p id="hindsightFailed">
+            Generate Hindsight to see what failed.
+        </p>
 
-                </div>
+    </div>
 
 
-                <div class="insight-card">
+    <div class="insight-card">
 
-                    <span class="insight-label">
-                        LESSONS FOR FUTURE PROJECTS
-                    </span>
+        <span class="insight-label">
+            IMPORTANT DECISIONS
+        </span>
 
-                    <p>
-                        Reusable knowledge extracted from experience.
-                    </p>
+        <p id="hindsightDecisions">
+            Generate Hindsight to see important decisions.
+        </p>
 
-                </div>
+    </div>
 
-            </div>
+
+    <div class="insight-card">
+
+        <span class="insight-label">
+            LESSONS FOR FUTURE PROJECTS
+        </span>
+
+        <p id="hindsightFutureLessons">
+            Generate Hindsight to see reusable lessons.
+        </p>
+
+    </div>
+
+</div>
 
 
             <div class="ai-response">
@@ -552,6 +625,7 @@
         <p id="projectMessage" class="message"></p>
 
     </div>
+    <div id="newProjectHistoricalExperiences"></div>
 
 </section>
 
@@ -560,41 +634,21 @@
 <section id="projectWorkspace" class="section">
 
     <div class="lifecycle">
-
-    <div class="stage active">
-        <span>1</span>
-        <strong>Design</strong>
-        <small>Define the problem</small>
     </div>
 
-    <div class="stage">
-        <span>2</span>
-        <strong>Plan</strong>
-        <small>Plan solution</small>
-    </div>
+    <!-- SELECTED STAGE DETAILS -->
 
-    <div class="stage">
-        <span>3</span>
-        <strong>Build</strong>
-        <small>Develop system</small>
-    </div>
+<div id="stageDetails" class="stage-details">
 
-    <div class="stage">
-        <span>4</span>
-        <strong>Test</strong>
-        <small>Validate solution</small>
-    </div>
+    <div class="stage-info">
 
-    <div class="stage">
-        <span>5</span>
-        <strong>Deploy</strong>
-        <small>Release system</small>
-    </div>
+        <h2>Select a project stage</h2>
 
-    <div class="stage">
-        <span>6</span>
-        <strong>Hindsight</strong>
-        <small>Learn from experience</small>
+        <p>
+            Select a stage above to view and manage
+            the details of that part of the project lifecycle.
+        </p>
+
     </div>
 
 </div>

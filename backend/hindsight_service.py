@@ -88,9 +88,8 @@ def store_experience(
 #     }
 
 
-def search_memory(query):
-
-    result = client.recall(
+async def search_memory(query):
+    result = await client.arecall(
         bank_id=BANK_ID,
         query=query
     )
@@ -106,9 +105,9 @@ def search_memory(query):
     return memories
 
 
-def generate_hindsight(query):
+async def generate_hindsight(query):
 
-    response = client.reflect(
+    response = await client.areflect(
         bank_id=BANK_ID,
         query=query
     )

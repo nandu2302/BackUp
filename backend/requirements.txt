@@ -2,3 +2,6 @@ fastapi
 uvicorn
 hindsight-client
 python-dotenv
+sqlalchemy
+psycopg[binary]
+alembic

@@ -462,3 +462,67 @@ nav {
     border-radius: 12px;
     margin-top: 20px;
 }
+
+.stage-form {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    background: #ffffff;
+}
+
+.stage-form h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.stage-form label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.stage-form input,
+.stage-form textarea,
+.stage-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-family: inherit;
+}
+
+.stage-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.stage-form button {
+    margin-top: 18px;
+}
+
+#projectIdeas {
+    margin-top: 24px;
+}
+
+.project-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.danger-btn {
+    background: #c0392b;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.danger-btn:hover {
+    opacity: 0.9;
+}
