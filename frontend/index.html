@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProjectHindsight</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span>◈</span>
+            ProjectHindsight
+        </div>
+
+        <nav>
+
+    <button onclick="showSection('dashboard')" class="nav-btn active">
+        Dashboard
+    </button>
+
+    <button onclick="showSection('projects')" class="nav-btn">
+        Projects
+    </button>
+
+    <button onclick="showSection('hindsight')" class="nav-btn">
+        Hindsight
+    </button>
+
+    <button onclick="showSection('settings')" class="nav-btn">
+        Settings
+    </button>
+
+</nav>
+
+            
+
+        <div class="sidebar-bottom">
+            <p>AI that remembers</p>
+            <p>what your projects learned.</p>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <!-- DASHBOARD -->
+
+        <!-- DASHBOARD -->
+
+<section id="dashboard" class="section active">
+
+    <div class="topbar">
+
+        <div>
+            <h1>Project Dashboard</h1>
+
+            <p>
+                Turn project experiences into organizational memory.
+            </p>
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="showSection('experience')">
+
+            + Add Experience
+
+        </button>
+
+    </div>
+
+
+    <!-- DASHBOARD STATS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <h3 id="projectCount">0</h3>
+
+            <p>Projects</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3 id="experienceCount">0</h3>
+
+            <p>Experiences</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>AI</h3>
+
+            <p>Memory Enabled</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- CURRENT PROJECT -->
+
+    <div id="dashboardCurrentProject">
+
+        <div class="idea-card">
+
+            <div>
+
+                <span class="small-label">
+                    CURRENT PROJECT
+                </span>
+
+                <h2>
+                    No current project selected
+                </h2>
+
+                <p>
+                    Create or select a project to see
+                    its current status and project memory.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROJECT MEMORY -->
+
+    <div class="idea-card">
+
+        <div>
+
+            <span class="small-label">
+                PROJECT MEMORY
+            </span>
+
+            <h2>
+                Your projects should not repeat the same mistakes.
+            </h2>
+
+            <p>
+                ProjectHindsight stores failures, decisions,
+                rejected ideas and lessons so future projects
+                can learn from previous experience.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+        <div class="project-card">
+    <div>
+        <span class="badge">Current Project</span>
+
+        <h2 id="dashboardProjectName">
+            No active project
+        </h2>
+
+        <p id="dashboardProjectDescription">
+            Create a project to start using ProjectHindsight.
+        </p>
+    </div>
+
+    <button
+        class="primary-btn"
+        onclick="openCurrentProject()">
+        Open Project
+    </button>
+</div>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="section">
+
+    <div class="topbar">
+
+        <div>
+            <h1>Settings</h1>
+
+            <p>
+                ProjectHindsight application settings.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="idea-card">
+
+        <div>
+
+            <span class="small-label">
+                SETTINGS
+            </span>
+
+            <h2>
+                Settings will be available here.
+            </h2>
+
+            <p>
+                Authentication, profile, GitHub integration,
+                and application preferences will be configured here.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- PROJECTS -->
+
+<section id="projects" class="section">
+
+    <div class="topbar">
+
+        <div>
+            <h1>Projects</h1>
+
+            <p>
+                View and manage all your projects.
+            </p>
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="showSection('createProject')">
+
+            + Create Project
+
+        </button>
+
+    </div>
+
+
+    <div id="projectsContainer">
+
+        <p class="empty-message">
+            Loading projects...
+        </p>
+
+    </div>
+
+</section>
+
+
+
+        <!-- ADD EXPERIENCE -->
+
+        <section id="experience" class="section">
+
+            <div class="topbar">
+
+                <div>
+                    <h1>Add Project Experience</h1>
+
+                    <p>
+                        Capture something your team learned.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="form-card">
+
+                <label>
+                    Project Name
+                </label>
+
+                <input
+                    id="projectName"
+                    type="text"
+                    value="Emergency Response System"
+                    placeholder="Enter project name">
+
+
+                <label>
+                    Experience Type
+                </label>
+
+                <select id="experienceType">
+
+                    <option value="Failure">
+                        Failure
+                    </option>
+
+                    <option value="Decision">
+                        Decision
+                    </option>
+
+                    <option value="Lesson">
+                        Lesson
+                    </option>
+
+                    <option value="Rejected Idea">
+                        Rejected Idea
+                    </option>
+
+                    <option value="Outcome">
+                        Outcome
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Title
+                </label>
+
+                <input
+                    id="experienceTitle"
+                    type="text"
+                    placeholder="Example: External API returned incorrect units">
+
+
+                <label>
+                    What happened?</label>
+
+                <textarea
+                    id="description"
+                    placeholder="Describe what happened..."></textarea>
+
+
+                <label>
+                    Solution / Decision
+                </label>
+
+                <textarea
+                    id="solution"
+                    placeholder="How was it solved or what decision was made?"></textarea>
+
+
+                <label>
+                    Lesson for future projects
+                </label>
+
+                <textarea
+                    id="lesson"
+                    placeholder="What should future projects remember?"></textarea>
+
+
+                <button
+                    class="primary-btn"
+                    onclick="saveExperience()">
+
+                    Save Experience to Hindsight
+
+                </button>
+
+
+                <p id="saveMessage" class="message"></p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- HINDSIGHT -->
+
+        <section id="hindsight" class="section">
+
+            <div class="topbar">
+
+                <div>
+
+                    <h1>Project Hindsight</h1>
+
+                    <p>
+                        What did this project teach us?
+                    </p>
+
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="generateHindsight()">
+
+                    Generate Hindsight
+
+                </button>
+
+            </div>
+
+
+            <div class="hindsight-grid">
+
+    <div class="insight-card">
+
+        <span class="insight-label">
+            WHAT WORKED
+        </span>
+
+        <p id="hindsightWorked">
+            Generate Hindsight to see what worked.
+        </p>
+
+    </div>
+
+
+    <div class="insight-card">
+
+        <span class="insight-label">
+            WHAT FAILED
+        </span>
+
+        <p id="hindsightFailed">
+            Generate Hindsight to see what failed.
+        </p>
+
+    </div>
+
+
+    <div class="insight-card">
+
+        <span class="insight-label">
+            IMPORTANT DECISIONS
+        </span>
+
+        <p id="hindsightDecisions">
+            Generate Hindsight to see important decisions.
+        </p>
+
+    </div>
+
+
+    <div class="insight-card">
+
+        <span class="insight-label">
+            LESSONS FOR FUTURE PROJECTS
+        </span>
+
+        <p id="hindsightFutureLessons">
+            Generate Hindsight to see reusable lessons.
+        </p>
+
+    </div>
+
+</div>
+
+
+            <div class="ai-response">
+
+                <h2>AI Hindsight</h2>
+
+                <div id="hindsightResult">
+
+                    <p>
+                        Click <b>Generate Hindsight</b> to let the
+                        AI analyze previous project experiences.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ASK MEMORY -->
+
+        <section id="memory" class="section">
+
+            <div class="topbar">
+
+                <div>
+
+                    <h1>Ask Project Memory</h1>
+
+                    <p>
+                        Search what your organization has already learned.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="search-card">
+
+                <input
+                    id="memoryQuery"
+                    type="text"
+                    placeholder="Example: Have we faced API integration problems?">
+
+                <button
+                    class="primary-btn"
+                    onclick="searchMemory()">
+
+                    Ask Memory
+
+                </button>
+
+            </div>
+
+
+            <div id="memoryResults">
+
+                <p class="empty-message">
+                    Ask a question to search previous project experiences.
+                </p>
+
+            </div>
+
+
+            <!-- REVIVE OLD IDEA -->
+
+            <div class="revive-card">
+
+                <span class="small-label">
+                    HISTORICAL IDEA
+                </span>
+
+                <h2>
+                    Google Maps API
+                </h2>
+
+                <p>
+                    This idea was previously rejected because of
+                    cost concerns in another project.
+                </p>
+
+                <p class="warning">
+                    ⚠ Previous decision found in project memory.
+                </p>
+
+                <button
+                    class="secondary-btn"
+                    onclick="reviveIdea()">
+
+                    Consider Again
+
+                </button>
+
+                <button
+                    class="text-btn"
+                    onclick="dismissIdea()">
+
+                    Not Relevant
+
+                </button>
+
+                <p id="reviveMessage"></p>
+
+            </div>
+
+        </section>
+
+        <!-- CREATE PROJECT -->
+
+<section id="createProject" class="section">
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>Create New Project</h1>
+
+            <p>
+                Start a new project that can learn from previous project experiences.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <label>
+            Project Name
+        </label>
+
+        <input
+            id="newProjectName"
+            type="text"
+            placeholder="Example: Smart Emergency Platform">
+
+
+        <label>
+            Project Description
+        </label>
+
+        <textarea
+            id="newProjectDescription"
+            placeholder="Describe what this project is about..."></textarea>
+
+
+        <button
+            class="primary-btn"
+            onclick="createProject()">
+
+            Create Project
+
+        </button>
+
+
+        <p id="projectMessage" class="message"></p>
+
+    </div>
+    <div id="newProjectHistoricalExperiences"></div>
+
+</section>
+
+<!-- PROJECT WORKSPACE -->
+
+<section id="projectWorkspace" class="section">
+
+    <div class="lifecycle">
+    </div>
+
+    <!-- SELECTED STAGE DETAILS -->
+
+<div id="stageDetails" class="stage-details">
+
+    <div class="stage-info">
+
+        <h2>Select a project stage</h2>
+
+        <p>
+            Select a stage above to view and manage
+            the details of that part of the project lifecycle.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="stage-info">
+
+    <h2>Project Lifecycle</h2>
+
+    <p>
+        ProjectHindsight captures important experiences
+        throughout the project lifecycle and turns them
+        into reusable organizational memory.
+    </p>
+
+</div>
+
+
+    <div class="topbar">
+
+        <div>
+
+            <span class="badge">
+                Active Project
+            </span>
+
+            <h1 id="currentProjectName">
+                Smart Emergency Platform
+            </h1>
+
+            <p id="currentProjectDescription">
+                New project workspace
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="search-card">
+
+        <h2>
+            Have We Faced This Before?
+        </h2>
+
+        <p>
+            Describe a problem or situation you are facing.
+            ProjectHindsight will search previous project experiences.
+        </p>
+
+
+        <textarea
+            id="projectProblem"
+            placeholder="Example: Our routing API is returning distance in meters, but our application expects kilometers.">
+        </textarea>
+
+
+        <button
+            class="primary-btn"
+            onclick="findHistoricalExperience()">
+
+            Have We Faced This Before?
+
+        </button>
+
+    </div>
+
+
+    <div id="historicalExperience">
+
+        <p class="empty-message">
+            No historical experience searched yet.
+        </p>
+
+    </div>
+
+</section>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
