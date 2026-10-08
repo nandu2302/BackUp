@@ -188,22 +188,36 @@ def update_stage_progress(
     # ---------------------------------------------------------
     # DEPLOYMENT
     # ---------------------------------------------------------
+    # ---------------------------------------------------------
+    # ---------------------------------------------------------
+    # ---------------------------------------------------------
+    # DEPLOYMENT
+    # ---------------------------------------------------------
     elif stage_type == "DEPLOYMENT":
 
-        successful_deployments = (
+        deployments = (
             db.query(Deployment)
             .filter(
-                Deployment.project_id == project_id,
-                Deployment.status == "SUCCESS"
+                Deployment.project_id == project_id
             )
-            .count()
+            .all()
         )
 
-        progress = (
-            100
-            if successful_deployments > 0
-            else 0
-        )
+        if deployments:
+
+            successful_deployments = sum(
+                1
+                for deployment in deployments
+                if deployment.status.upper()
+                in ["SUCCESS", "DEPLOYED"]
+            )
+
+            progress = (
+                successful_deployments / len(deployments)
+            ) * 100
+
+        else:
+            progress = 0
 
     # ---------------------------------------------------------
     # HINDSIGHT

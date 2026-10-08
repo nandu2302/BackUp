@@ -10,7 +10,10 @@ from schemas.deployment import (
     DeploymentUpdate,
     DeploymentResponse
 )
+
 from services.stage_progress import update_stage_progress
+from hindsight_service import store_experience
+
 
 router = APIRouter(
     prefix="/projects/{project_id}/deployments",
@@ -18,12 +21,16 @@ router = APIRouter(
 )
 
 
+# ============================================================
+# CREATE DEPLOYMENT
+# ============================================================
+
 @router.post(
     "",
     response_model=DeploymentResponse,
     status_code=201
 )
-def create_deployment(
+async def create_deployment(
     project_id: int,
     deployment_data: DeploymentCreate,
     db: Session = Depends(get_db)
@@ -50,16 +57,59 @@ def create_deployment(
 
     db.add(deployment)
     db.flush()
+
     update_stage_progress(
         project_id,
         "DEPLOYMENT",
         db
     )
+
     db.commit()
     db.refresh(deployment)
 
+    # --------------------------------------------------------
+    # Store deployment experience in Hindsight
+    # --------------------------------------------------------
+
+    try:
+        await store_experience(
+            project_name=project.name,
+            experience_type="Deployment",
+            title=(
+                f"{deployment.environment} deployment "
+                f"{deployment.status}"
+            ),
+            description=(
+                f"A deployment was recorded for the project.\n\n"
+                f"Environment: {deployment.environment}\n"
+                f"Status: {deployment.status}\n"
+                f"Version: {deployment.version or 'Not specified'}\n"
+                f"Notes: "
+                f"{deployment.deployment_notes or 'No deployment notes provided.'}"
+            ),
+            solution=(
+                deployment.deployment_notes
+                or "No specific solution recorded."
+            ),
+            lesson=(
+                "Record deployment environment, outcome, version, "
+                "and deployment configuration so future projects "
+                "can learn from previous deployment outcomes."
+            )
+        )
+    except Exception as hindsight_error:
+        # Hindsight failure must not break deployment creation.
+        print(
+            "Hindsight deployment capture failed:",
+            hindsight_error
+        )
+
     return deployment
 
+
+# ============================================================
+# GET ALL DEPLOYMENTS
+# ============================================================
 
 @router.get(
     "",
@@ -83,11 +133,17 @@ def get_deployments(
 
     return (
         db.query(Deployment)
-        .filter(Deployment.project_id == project_id)
+        .filter(
+            Deployment.project_id == project_id
+        )
         .order_by(Deployment.id)
         .all()
     )
 
+
+# ============================================================
+# GET SINGLE DEPLOYMENT
+# ============================================================
 
 @router.get(
     "/{deployment_id}",
@@ -116,11 +172,15 @@ def get_deployment(
     return deployment
 
 
+# ============================================================
+# UPDATE DEPLOYMENT
+# ============================================================
+
 @router.put(
     "/{deployment_id}",
     response_model=DeploymentResponse
 )
-def update_deployment(
+async def update_deployment(
     project_id: int,
     deployment_id: int,
     deployment_data: DeploymentUpdate,
@@ -146,21 +206,76 @@ def update_deployment(
     )
 
     for field, value in update_data.items():
-        setattr(deployment, field, value)
+        setattr(
+            deployment,
+            field,
+            value
+        )
 
     db.flush()
+
     update_stage_progress(
         project_id,
         "DEPLOYMENT",
         db
     )
+
     db.commit()
     db.refresh(deployment)
+
+    # --------------------------------------------------------
+    # Store updated deployment experience in Hindsight
+    # --------------------------------------------------------
+
+    try:
+        project = (
+            db.query(Project)
+            .filter(Project.id == project_id)
+            .first()
+        )
+
+        if project:
+            await store_experience(
+                project_name=project.name,
+                experience_type="Deployment",
+                title=(
+                    f"{deployment.environment} deployment "
+                    f"updated to {deployment.status}"
+                ),
+                description=(
+                    f"A deployment outcome was updated.\n\n"
+                    f"Environment: {deployment.environment}\n"
+                    f"Status: {deployment.status}\n"
+                    f"Version: {deployment.version or 'Not specified'}\n"
+                    f"Notes: "
+                    f"{deployment.deployment_notes or 'No deployment notes provided.'}"
+                ),
+                solution=(
+                    deployment.deployment_notes
+                    or "No specific solution recorded."
+                ),
+                lesson=(
+                    "Review deployment configuration and environment "
+                    "settings when deployment outcomes change."
+                )
+            )
+
+    except Exception as hindsight_error:
+        print(
+            "Hindsight deployment update capture failed:",
+            hindsight_error
+        )
 
     return deployment
 
 
-@router.delete("/{deployment_id}")
+# ============================================================
+# DELETE DEPLOYMENT
+# ============================================================
+
+@router.delete(
+    "/{deployment_id}"
+)
 def delete_deployment(
     project_id: int,
     deployment_id: int,
@@ -182,12 +297,15 @@ def delete_deployment(
         )
 
     db.delete(deployment)
+
     db.flush()
+
     update_stage_progress(
         project_id,
         "DEPLOYMENT",
         db
     )
+
     db.commit()
 
     return {

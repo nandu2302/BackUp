@@ -11,7 +11,6 @@ STAGE_ORDER = [
     "DEVELOPMENT",
     "TESTING",
     "DEPLOYMENT",
-    "HINDSIGHT"
 ]
 
 
@@ -59,6 +58,6 @@ def update_project_progress(project_id: int, db: Session):
             break
     else:
         # All stages completed
-        project.current_stage = "HINDSIGHT"
+        project.current_stage = "DEPLOYMENT"
 
     return project

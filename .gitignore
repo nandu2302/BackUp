@@ -1,0 +1,4 @@
+venv/
+.env
+backend/uploads/
+backend/experience_count.json

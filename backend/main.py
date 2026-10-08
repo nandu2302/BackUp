@@ -18,10 +18,10 @@ from routers.milestones import router as milestones_router
 from routers.ideas import router as ideas_router
 from routers.project_history import router as project_history_router
 from routers.bugs import router as bugs_router
-
-
-
-
+from routers.testing_insights import router as testing_insights_router
+from fastapi.staticfiles import StaticFiles
+from routers.deployment_insights import router as deployment_insights_router
+from routers.hindsight import router as hindsight_router
 
 from hindsight_service import (
     get_experience_count,
@@ -34,6 +34,11 @@ app = FastAPI(
     title="ProjectHindsight API"
 )
 
+app.mount(
+    "/uploads",
+    StaticFiles(directory="uploads"),
+    name="uploads"
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -52,8 +57,10 @@ app.include_router(architecture_router)
 app.include_router(development_router)
 app.include_router(decisions_router)
 app.include_router(experiences_router)
-app.include_router(testing_router)
+app.include_router(hindsight_router)
+# app.include_router(testing_router)
 app.include_router(test_records_router)
+app.include_router(testing_insights_router)
 app.include_router(solutions_router)
 app.include_router(lessons_router)
 app.include_router(deployment_router)
@@ -61,6 +68,9 @@ app.include_router(milestones_router)
 app.include_router(ideas_router)
 app.include_router(project_history_router)
 app.include_router(bugs_router)
+app.include_router(
+    deployment_insights_router
+)
 
 
 
@@ -75,9 +85,9 @@ def home():
 
 
 @app.post("/experiences")
-def add_experience(data: dict):
+async def add_experience(data: dict):
 
-    return store_experience(
+    return await store_experience(
         project_name=data["project_name"],
         experience_type=data["experience_type"],
         title=data["title"],

@@ -25,7 +25,7 @@ router = APIRouter(
     response_model=ExperienceResponse,
     status_code=201
 )
-def create_experience(
+async def create_experience(
     project_id: int,
     experience_data: ExperienceCreate,
     db: Session = Depends(get_db)
@@ -88,7 +88,7 @@ def create_experience(
 
     # Store the experience in Hindsight
     try:
-        store_experience(
+        await store_experience(
             project_name=project.name,
             experience_type=experience_data.type,
             title=experience_data.title,

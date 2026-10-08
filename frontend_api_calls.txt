@@ -1,0 +1,34 @@
+frontend\src\components\AskProjectMemory.jsx:122:            const response = await api.post("/hindsight", {
+frontend\src\pages\CreateProject.jsx:37:            const response = await api.post("/projects", {
+frontend\src\pages\Dashboard.jsx:27:                        api.get("/projects"),
+frontend\src\pages\Dashboard.jsx:28:                        api.get("/experience-count")
+frontend\src\pages\ProjectWorkspace.jsx:25:                        api.get(`/projects/${projectId}`),
+frontend\src\pages\ProjectWorkspace.jsx:26:                        api.get(`/projects/${projectId}/stages`)
+frontend\src\pages\stages\Architecture.jsx:83:            const response = await api.get(
+frontend\src\pages\stages\Architecture.jsx:212:            await api.post(
+frontend\src\pages\stages\Architecture.jsx:281:            await api.put(
+frontend\src\pages\stages\Architecture.jsx:397:            await api.delete(
+frontend\src\pages\stages\Architecture.jsx:501:            await api.post(
+frontend\src\pages\stages\Deployment.jsx:42:            const response = await api.get(
+frontend\src\pages\stages\Deployment.jsx:63:            const response = await api.get(
+frontend\src\pages\stages\Deployment.jsx:142:                await api.put(
+frontend\src\pages\stages\Deployment.jsx:153:                await api.post(
+frontend\src\pages\stages\Deployment.jsx:191:            await api.delete(
+frontend\src\pages\stages\Development.jsx:74:            const response = await api.get(
+frontend\src\pages\stages\Development.jsx:95:            const response = await api.get(
+frontend\src\pages\stages\Development.jsx:240:                await api.put(
+frontend\src\pages\stages\Development.jsx:245:                await api.post(
+frontend\src\pages\stages\Development.jsx:320:                await api.put(
+frontend\src\pages\stages\Development.jsx:327:                await api.post(
+frontend\src\pages\stages\Development.jsx:384:            await api.delete(
+frontend\src\pages\stages\Development.jsx:428:            await api.delete(
+frontend\src\pages\stages\Idea.jsx:49:            const response = await api.get(
+frontend\src\pages\stages\Idea.jsx:75:            await api.post(
+frontend\src\pages\stages\Requirements.jsx:50:            const response = await api.get(
+frontend\src\pages\stages\Requirements.jsx:76:            await api.post(
+frontend\src\pages\stages\Testing.jsx:46:            const response = await api.get(
+frontend\src\pages\stages\Testing.jsx:63:            const response = await api.get(
+frontend\src\pages\stages\Testing.jsx:123:                await api.put(
+frontend\src\pages\stages\Testing.jsx:132:                await api.post(
+frontend\src\pages\stages\Testing.jsx:164:            await api.post(
+frontend\src\pages\stages\Testing.jsx:204:            await api.delete(`/tests/${testId}`);

@@ -18,7 +18,7 @@ client = Hindsight(
 BANK_ID = "project-hindsight"
 
 
-def store_experience(
+async def store_experience(
     project_name,
     experience_type,
     title,
@@ -46,7 +46,7 @@ def store_experience(
     {lesson}
     """
 
-    client.retain(
+    await client.aretain(
         bank_id=BANK_ID,
         content=content
     )
