@@ -856,14 +856,12 @@ function Requirements() {
             {/* Back to project */}
             <div className="requirements-back">
                 <button
-                    className="text-btn"
-                    onClick={() =>
-                        navigate(
-                            `/projects/${projectId}`
-                        )
-                    }
+                    type="button"
+                    className="back-to-project-stages-btn"
+                    onClick={() => navigate(`/projects/${projectId}`)}
                 >
-                    ← Back to Project
+                    <span className="back-to-project-stages-arrow">←</span>
+                    <span>Back to Project</span>
                 </button>
             </div>
 
