@@ -20,93 +20,159 @@ import Development from "./pages/stages/Development";
 import Testing from "./pages/stages/Testing";
 import Deployment from "./pages/stages/Deployment";
 import Projects from "./pages/Projects";
+import Login from "./pages/Login";
+
 
 function App() {
     return (
         <BrowserRouter>
-
             <Routes>
+                {/* Login page without the dashboard sidebar */}
+                <Route path="/login" element={<Login />} />
 
+                {/* Redirect the root page to login */}
+                <Route
+                    path="/"
+                    element={<Navigate to="/login" replace />}
+                />
+
+                {/* Existing application pages */}
                 <Route element={<DashboardLayout />}>
-
-                    <Route
-                        path="/"
-                        element={
-                            <Navigate
-                                to="/dashboard"
-                                replace
-                            />
-                        }
-                    />
-
                     <Route
                         path="/dashboard"
                         element={<Dashboard />}
                     />
-
-                    <Route
-                        path="/projects"
-                        element={<Projects />}
-                    />
-
-                    <Route
-                        path="/experience"
-                        element={<Experience />}
-                    />
-
-                    <Route
-                        path="/hindsight"
-                        element={<Hindsight />}
-                    />
-
-                    <Route
-                        path="/memory"
-                        element={<Memory />}
-                    />
-
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/experience" element={<Experience />} />
+                    <Route path="/hindsight" element={<Hindsight />} />
+                    <Route path="/memory" element={<Memory />} />
                     <Route
                         path="/projects/create"
                         element={<CreateProject />}
                     />
-
                     <Route
                         path="/projects/:projectId"
                         element={<ProjectWorkspace />}
                     />
-
-                    <Route path="/projects/:projectId/idea" element={<Idea />}/>
-
+                    <Route
+                        path="/projects/:projectId/idea"
+                        element={<Idea />}
+                    />
                     <Route
                         path="/projects/:projectId/requirements"
                         element={<Requirements />}
                     />
-
                     <Route
                         path="/projects/:projectId/architecture"
                         element={<Architecture />}
                     />
-
                     <Route
                         path="/projects/:projectId/development"
                         element={<Development />}
                     />
-
                     <Route
                         path="/projects/:projectId/testing"
                         element={<Testing />}
                     />
-
                     <Route
                         path="/projects/:projectId/deployment"
                         element={<Deployment />}
                     />
-
                 </Route>
-
             </Routes>
-
         </BrowserRouter>
     );
 }
 
 export default App;
+
+
+// function App() {
+//     return (
+//         <BrowserRouter>
+
+//             <Routes>
+
+//                 <Route element={<DashboardLayout />}>
+
+//                     <Route
+//                         path="/"
+//                         element={
+//                             <Navigate
+//                                 to="/dashboard"
+//                                 replace
+//                             />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="/dashboard"
+//                         element={<Dashboard />}
+//                     />
+
+//                     <Route
+//                         path="/projects"
+//                         element={<Projects />}
+//                     />
+
+//                     <Route
+//                         path="/experience"
+//                         element={<Experience />}
+//                     />
+
+//                     <Route
+//                         path="/hindsight"
+//                         element={<Hindsight />}
+//                     />
+
+//                     <Route
+//                         path="/memory"
+//                         element={<Memory />}
+//                     />
+
+//                     <Route
+//                         path="/projects/create"
+//                         element={<CreateProject />}
+//                     />
+
+//                     <Route
+//                         path="/projects/:projectId"
+//                         element={<ProjectWorkspace />}
+//                     />
+
+//                     <Route path="/projects/:projectId/idea" element={<Idea />}/>
+
+//                     <Route
+//                         path="/projects/:projectId/requirements"
+//                         element={<Requirements />}
+//                     />
+
+//                     <Route
+//                         path="/projects/:projectId/architecture"
+//                         element={<Architecture />}
+//                     />
+
+//                     <Route
+//                         path="/projects/:projectId/development"
+//                         element={<Development />}
+//                     />
+
+//                     <Route
+//                         path="/projects/:projectId/testing"
+//                         element={<Testing />}
+//                     />
+
+//                     <Route
+//                         path="/projects/:projectId/deployment"
+//                         element={<Deployment />}
+//                     />
+
+//                 </Route>
+
+//             </Routes>
+
+//         </BrowserRouter>
+//     );
+// }
+
+// export default App;

@@ -28,9 +28,24 @@ function ProjectWorkspace() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [experienceError, setExperienceError] = useState("");
+    const [ideasCount, setIdeasCount] = useState(0);
 
     useEffect(() => {
         let cancelled = false;
+
+
+        const fetchIdeasCount = async () => {
+            try {
+                const response = await api.get(
+                    `/projects/${projectId}/ideas`
+                );
+
+                setIdeasCount(response.data.length);
+            } catch (error) {
+                console.error("Failed to fetch ideas count:", error);
+                setIdeasCount(0);
+            }
+        };
 
         const loadWorkspace = async () => {
             setLoading(true);
@@ -90,6 +105,7 @@ function ProjectWorkspace() {
         };
 
         loadWorkspace();
+        fetchIdeasCount();
 
         return () => {
             cancelled = true;
@@ -460,6 +476,7 @@ function ProjectWorkspace() {
                                                     "Project stage details and progress."}
                                             </p>
 
+                                            
                                             <div className="workspace-journey-card-footer">
                                                 <span>
                                                     {stageExperiences}{" "}
@@ -468,8 +485,13 @@ function ProjectWorkspace() {
                                                         : "Experiences"}
                                                 </span>
 
-                                                <strong>{progress}%</strong>
+                                                <strong>
+                                                    {stage.stage_type === "IDEA"
+                                                        ? `${ideasCount} Ideas`
+                                                        : `${progress}%`}
+                                                </strong>
                                             </div>
+
                                         </div>
 
                                         <button
