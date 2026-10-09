@@ -19,6 +19,7 @@ import Architecture from "./pages/stages/Architecture";
 import Development from "./pages/stages/Development";
 import Testing from "./pages/stages/Testing";
 import Deployment from "./pages/stages/Deployment";
+import Projects from "./pages/Projects";
 
 function App() {
     return (
@@ -41,6 +42,11 @@ function App() {
                     <Route
                         path="/dashboard"
                         element={<Dashboard />}
+                    />
+
+                    <Route
+                        path="/projects"
+                        element={<Projects />}
                     />
 
                     <Route

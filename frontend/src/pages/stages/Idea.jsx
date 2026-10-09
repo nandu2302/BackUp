@@ -1004,7 +1004,15 @@ function Idea() {
 
             )}
 
-
+             <button
+                    type="button"
+                    className="back-to-project-stages-btn"
+                    onClick={() => navigate(`/projects/${projectId}`)}
+                >
+                    <span className="back-to-project-stages-arrow">←</span>
+                    <span>Back to Project</span>
+                </button>
+                
             <AskProjectMemory
                 projectId={projectId}
                 stage="IDEA"

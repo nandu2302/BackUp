@@ -61,6 +61,7 @@ def get_hindsight_projects(
             "name": project.name,
             "description": project.description,
             "domain": project.domain,
+            "status": project.status,
             "experience_count": experience_count
         })
 
