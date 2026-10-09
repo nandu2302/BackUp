@@ -16,6 +16,7 @@ import {
     AlertTriangle,
     ShieldAlert,
     CircleCheck,
+    GitBranch,
 } from "lucide-react";
 
 import api from "../../services/api";
@@ -76,9 +77,27 @@ function Development() {
     const [developmentExperienceMessage, setDevelopmentExperienceMessage] =
         useState("");
 
+
+    // GitHub Integration
+    const [showGithubConnect, setShowGithubConnect] = useState(false);
+    const [githubOwner, setGithubOwner] = useState("");
+    const [githubRepo, setGithubRepo] = useState("");
+    const [githubBranch, setGithubBranch] = useState("main");
+    const [githubAccessToken, setGithubAccessToken] = useState("");
+    const [githubWebhookSecret, setGithubWebhookSecret] = useState("");
+
+    const [githubConnecting, setGithubConnecting] = useState(false);
+    const [githubStatus, setGithubStatus] = useState(null);
+    const [githubLoading, setGithubLoading] = useState(true);
+    const [githubSyncing, setGithubSyncing] = useState(false);
+    const [githubError, setGithubError] = useState("");
+    const [githubMessage, setGithubMessage] = useState("");
+    const [githubExperiences, setGithubExperiences] = useState([]);
+
     useEffect(() => {
         fetchTasks();
         fetchBugs();
+        fetchGithubStatus();
     }, [projectId]);
 
     const fetchTasks = async () => {
@@ -122,6 +141,126 @@ function Development() {
 
         } finally {
             setBugsLoading(false);
+        }
+    };
+
+    const fetchGithubStatus = async () => {
+        try {
+            setGithubLoading(true);
+            setGithubError("");
+
+            const response = await api.get(
+                `/projects/${projectId}/github/status`
+            );
+
+            setGithubStatus(response.data);
+        } catch (err) {
+            console.error("Failed to load GitHub status:", err);
+
+            setGithubStatus(null);
+
+            setGithubError(
+                err.response?.data?.detail ||
+                "GitHub integration is not connected."
+            );
+        } finally {
+            setGithubLoading(false);
+        }
+    };
+
+    const connectGithub = async () => {
+        if (!githubOwner.trim()) {
+            setGithubError("GitHub owner is required.");
+            return;
+        }
+
+        if (!githubRepo.trim()) {
+            setGithubError("GitHub repository name is required.");
+            return;
+        }
+
+        if (!githubBranch.trim()) {
+            setGithubError("GitHub branch is required.");
+            return;
+        }
+
+        if (!githubAccessToken.trim()) {
+            setGithubError("GitHub access token is required.");
+            return;
+        }
+
+        try {
+            setGithubConnecting(true);
+            setGithubError("");
+            setGithubMessage("");
+
+            const response = await api.post(
+                `/projects/${projectId}/github/connect`,
+                null,
+                {
+                    params: {
+                        owner: githubOwner.trim(),
+                        repo: githubRepo.trim(),
+                        branch: githubBranch.trim(),
+                        access_token: githubAccessToken.trim(),
+                        webhook_secret: githubWebhookSecret.trim() || undefined,
+                    },
+                }
+            );
+
+            setGithubMessage(
+                response.data.message ||
+                "GitHub repository connected successfully."
+            );
+
+            setShowGithubConnect(false);
+
+            await fetchGithubStatus();
+
+            setGithubAccessToken("");
+            setGithubWebhookSecret("");
+
+        } catch (err) {
+            console.error("GitHub connection failed:", err);
+
+            setGithubError(
+                err.response?.data?.detail ||
+                "Failed to connect GitHub repository."
+            );
+        } finally {
+            setGithubConnecting(false);
+        }
+    };
+
+    const syncGithub = async () => {
+        try {
+            setGithubSyncing(true);
+            setGithubError("");
+            setGithubMessage("");
+
+            const response = await api.post(
+                `/projects/${projectId}/github/sync`
+            );
+
+            setGithubMessage(
+                `GitHub synced successfully. ${response.data.new_commits} new commits found.`
+            );
+
+            await fetchGithubStatus();
+
+            setTimeout(() => {
+                setGithubMessage("");
+            }, 4000);
+
+        } catch (err) {
+            console.error("GitHub sync failed:", err);
+
+            setGithubError(
+                err.response?.data?.detail ||
+                "Failed to sync GitHub."
+            );
+        } finally {
+            setGithubSyncing(false);
         }
     };
 
@@ -1136,6 +1275,396 @@ const formatBugStatus = (status) => {
 
             </section>
 
+
+            {/* ========================================= */}
+            {/* GITHUB INTEGRATION */}
+            {/* ========================================= */}
+
+            <section className="development-github-section">
+
+                <div className="development-section-header">
+
+                    <div>
+                        <h2>
+                            GitHub Integration
+                        </h2>
+
+                        <p>
+                            Connect project development activity with
+                            ProjectHindsight memory.
+                        </p>
+                    </div>
+
+                    <GitBranch size={26} />
+
+                </div>
+
+
+                {githubLoading && (
+                    <div className="development-empty-state">
+
+                        <GitBranch size={32} />
+
+                        <p>
+                            Loading GitHub integration...
+                        </p>
+
+                    </div>
+                )}
+
+
+                {!githubLoading && githubError && !githubStatus && (
+                    <div className="development-error">
+
+                        <AlertCircle size={18} />
+
+                        {githubError}
+
+                    </div>
+                )}
+
+
+                {showGithubConnect && (
+                    <div className="development-github-connect-card">
+
+                        <div className="development-github-connect-header">
+
+                            <div>
+                                <h3>Connect GitHub Repository</h3>
+
+                                <p>
+                                    Connect a GitHub repository to this project.
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                className="development-icon-btn"
+                                onClick={() => {
+                                    setShowGithubConnect(false);
+                                    setGithubError("");
+                                }}
+                            >
+                                <X size={18} />
+                            </button>
+
+                        </div>
+
+
+                        <div className="development-form">
+
+                            <div className="development-form-row">
+
+                                <div className="form-group">
+
+                                    <label>
+                                        Repository Owner
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        value={githubOwner}
+                                        onChange={(event) =>
+                                            setGithubOwner(event.target.value)
+                                        }
+                                        placeholder="e.g. nandu2302"
+                                    />
+
+                                </div>
+
+
+                                <div className="form-group">
+
+                                    <label>
+                                        Repository Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        value={githubRepo}
+                                        onChange={(event) =>
+                                            setGithubRepo(event.target.value)
+                                        }
+                                        placeholder="e.g. BackUp"
+                                    />
+
+                                </div>
+
+                            </div>
+
+
+                            <div className="form-group">
+
+                                <label>
+                                    Branch
+                                </label>
+
+                                <input
+                                    type="text"
+                                    value={githubBranch}
+                                    onChange={(event) =>
+                                        setGithubBranch(event.target.value)
+                                    }
+                                    placeholder="e.g. main"
+                                />
+
+                            </div>
+
+
+                            <div className="form-group">
+
+                                <label>
+                                    GitHub Personal Access Token
+                                </label>
+
+                                <input
+                                    type="password"
+                                    value={githubAccessToken}
+                                    onChange={(event) =>
+                                        setGithubAccessToken(event.target.value)
+                                    }
+                                    placeholder="Enter GitHub access token"
+                                />
+
+                            </div>
+
+
+                            <div className="form-group">
+
+                                <label>
+                                    Webhook Secret
+                                </label>
+
+                                <input
+                                    type="password"
+                                    value={githubWebhookSecret}
+                                    onChange={(event) =>
+                                        setGithubWebhookSecret(event.target.value)
+                                    }
+                                    placeholder="Enter webhook secret"
+                                />
+
+                                <small className="development-field-hint">
+                                    Use the same secret configured in your GitHub webhook.
+                                </small>
+
+                            </div>
+
+
+                            {githubError && (
+                                <div className="development-form-error">
+
+                                    <AlertCircle size={17} />
+
+                                    {githubError}
+
+                                </div>
+                            )}
+
+
+                            <div className="development-form-actions">
+
+                                <button
+                                    type="button"
+                                    className="secondary-btn"
+                                    onClick={() => {
+                                        setShowGithubConnect(false);
+                                        setGithubError("");
+                                    }}
+                                    disabled={githubConnecting}
+                                >
+                                    Cancel
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    className="primary-btn"
+                                    onClick={connectGithub}
+                                    disabled={githubConnecting}
+                                >
+                                    <GitBranch size={17} />
+
+                                    {githubConnecting
+                                        ? "Connecting..."
+                                        : "Connect Repository"}
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                )}
+
+
+                {!githubLoading && githubStatus?.connected && (
+                    <div className="development-github-card">
+
+                        <div className="development-github-header">
+
+                            <div className="development-github-icon">
+                                <GitBranch size={24} />
+                            </div>
+
+                            <div>
+                                <h3>
+                                    {githubStatus.repository_owner}/
+                                    {githubStatus.repository_name}
+                                </h3>
+
+                                <p>
+                                    GitHub repository connected to this project
+                                </p>
+                            </div>
+
+                            <span className="development-github-status">
+                                Connected
+                            </span>
+
+                        </div>
+
+
+                        <div className="development-github-details">
+
+                            <div className="development-github-detail">
+
+                                <span>
+                                    Repository
+                                </span>
+
+                                <strong>
+                                    {githubStatus.repository_owner}/
+                                    {githubStatus.repository_name}
+                                </strong>
+
+                            </div>
+
+
+                            <div className="development-github-detail">
+
+                                <span>
+                                    Branch
+                                </span>
+
+                                <strong>
+                                    {githubStatus.branch}
+                                </strong>
+
+                            </div>
+
+
+                            <div className="development-github-detail">
+
+                                <span>
+                                    Last Synced
+                                </span>
+
+                                <strong>
+                                    {githubStatus.last_synced_at
+                                        ? new Date(
+                                            githubStatus.last_synced_at
+                                        ).toLocaleString()
+                                        : "Not synced yet"}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        {githubMessage && (
+                            <div className="development-success">
+
+                                <CheckCircle2 size={18} />
+
+                                {githubMessage}
+
+                            </div>
+                        )}
+
+
+                        {githubError && (
+                            <div className="development-form-error">
+
+                                <AlertCircle size={17} />
+
+                                {githubError}
+
+                            </div>
+                        )}
+
+
+                        <div className="development-form-actions">
+
+                            <button
+                                type="button"
+                                className="secondary-btn"
+                                onClick={() => {
+                                    setGithubError("");
+                                    setGithubMessage("");
+                                    setShowGithubConnect(true);
+                                }}
+                            >
+                                Change Repository
+                            </button>
+
+                            <button
+                                type="button"
+                                className="primary-btn"
+                                onClick={syncGithub}
+                                disabled={githubSyncing}
+                            >
+                                <GitBranch size={17} />
+
+                                {githubSyncing
+                                    ? "Syncing..."
+                                    : "Sync GitHub"}
+                            </button>
+
+                        </div>
+
+                    </div>
+                )}
+
+
+                {!githubLoading &&
+                    githubStatus?.connected === false && (
+
+                    <div className="development-empty-state">
+
+                        <div className="development-empty-icon">
+                            <GitBranch size={30} />
+                        </div>
+
+                        <h3>
+                            GitHub not connected
+                        </h3>
+
+                        <p>
+                            Connect a GitHub repository to automatically
+                            capture development activity as project
+                            experience.
+                        </p>
+
+                        <button
+                            type="button"
+                            className="primary-btn"
+                            onClick={() => {
+                                setGithubError("");
+                                setGithubMessage("");
+                                setShowGithubConnect(true);
+                            }}
+                        >
+                            <GitBranch size={17} />
+                            Connect GitHub Repository
+                        </button>
+
+                    </div>
+
+                )}
+
+            </section>
 
 
             {/* ========================================= */}

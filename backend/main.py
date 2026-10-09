@@ -22,6 +22,15 @@ from routers.testing_insights import router as testing_insights_router
 from fastapi.staticfiles import StaticFiles
 from routers.deployment_insights import router as deployment_insights_router
 from routers.hindsight import router as hindsight_router
+from routers.github import (
+    router as github_router,
+    webhook_router as github_webhook_router
+)
+
+
+
+
+
 
 from hindsight_service import (
     get_experience_count,
@@ -64,6 +73,8 @@ app.include_router(testing_insights_router)
 app.include_router(solutions_router)
 app.include_router(lessons_router)
 app.include_router(deployment_router)
+app.include_router(github_router)
+app.include_router(github_webhook_router)
 app.include_router(milestones_router)
 app.include_router(ideas_router)
 app.include_router(project_history_router)

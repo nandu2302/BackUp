@@ -18,3 +18,5 @@ from models.deployment import Deployment
 from models.milestone import Milestone
 from models.project_member import ProjectMember
 from models.idea import Idea
+from models.github_integration import GitHubIntegration
+from models.github_commit import GitHubCommit
