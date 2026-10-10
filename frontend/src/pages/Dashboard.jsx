@@ -8,6 +8,8 @@ import AskProjectMemory from "../components/AskProjectMemory";
 
 function Dashboard() {
     const navigate = useNavigate();
+    const username =
+    localStorage.getItem("projectHindsightUsername") || "User";
 
     const [projects, setProjects] = useState([]);
     const [experienceCount, setExperienceCount] = useState(0);
@@ -51,6 +53,7 @@ function Dashboard() {
 
     return (
         <div>
+            
             <div className="topbar">
                 <div>
                     <h1>Project Dashboard</h1>
@@ -60,13 +63,23 @@ function Dashboard() {
                     </p>
                 </div>
 
-                <button
-                    className="primary-btn"
-                    onClick={() => navigate("/experience")}
-                >
-                    + Add Experience
-                </button>
+                <div className="dashboard-topbar-actions">
+                    <div className="dashboard-user">
+                        <div className="dashboard-user-avatar">
+                            {username.charAt(0).toUpperCase()}
+                        </div>
+                        <span>{username}</span>
+                    </div>
+
+                    <button
+                        className="primary-btn"
+                        onClick={() => navigate("/experience")}
+                    >
+                        + Add Experience
+                    </button>
+                </div>
             </div>
+
 
             {error && (
                 <p className="message" role="alert">

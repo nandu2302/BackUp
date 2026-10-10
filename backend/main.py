@@ -95,17 +95,19 @@ def home():
     }
 
 
+
 @app.post("/experiences")
 async def add_experience(data: dict):
-
     return await store_experience(
         project_name=data["project_name"],
         experience_type=data["experience_type"],
         title=data["title"],
         description=data["description"],
         solution=data["solution"],
+        outcome=data["outcome"],
         lesson=data["lesson"]
     )
+
 
 
 @app.get("/memory")

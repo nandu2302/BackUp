@@ -18,15 +18,16 @@ client = Hindsight(
 BANK_ID = "project-hindsight"
 
 
+
 async def store_experience(
     project_name,
     experience_type,
     title,
     description,
     solution,
+    outcome,
     lesson
 ):
-
     content = f"""
     Project Experience Record
 
@@ -41,6 +42,9 @@ async def store_experience(
 
     Solution / Decision:
     {solution}
+
+    Outcome:
+    {outcome}
 
     Lesson for future projects:
     {lesson}

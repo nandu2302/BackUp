@@ -5,13 +5,21 @@ import { useNavigate } from "react-router-dom";
 function Login() {
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleLogin = (event) => {
         event.preventDefault();
 
-        // UI-only login: navigate without authentication
+        const cleanUsername = username.trim();
+
+        if (!cleanUsername) return;
+
+        localStorage.setItem(
+            "projectHindsightUsername",
+            cleanUsername
+        );
+
         navigate("/dashboard");
     };
 
@@ -27,21 +35,26 @@ function Login() {
 
                 <form onSubmit={handleLogin}>
                     <div className="login-field">
-                        <label htmlFor="email">Email Address</label>
+                        <label htmlFor="username">
+                            Username
+                        </label>
                         <input
-                            id="email"
-                            type="email"
-                            placeholder="Enter your email"
-                            value={email}
+                            id="username"
+                            type="text"
+                            placeholder="Enter your username"
+                            value={username}
                             onChange={(event) =>
-                                setEmail(event.target.value)
+                                setUsername(event.target.value)
                             }
+                            autoComplete="username"
                             required
                         />
                     </div>
 
                     <div className="login-field">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">
+                            Password
+                        </label>
                         <input
                             id="password"
                             type="password"
@@ -50,6 +63,7 @@ function Login() {
                             onChange={(event) =>
                                 setPassword(event.target.value)
                             }
+                            autoComplete="current-password"
                             required
                         />
                     </div>
